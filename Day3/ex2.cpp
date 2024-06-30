@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 using namespace std;
 class SLinkedList;
 class IntNode {
@@ -56,6 +55,31 @@ public:
 			tail = NULL;
 		}
 	}
+	void showList() const {
+		if (empty()) {
+			cout << -1 << endl;
+			return;
+		}
+		IntNode* tempNode = head;
+		while (tempNode->next != tail) {
+			cout << tempNode->ele << " ";
+			tempNode = tempNode->next;
+		}
+		cout << tempNode->ele << " ";
+		tempNode = tempNode->next;
+		cout << tempNode->ele << endl;
+	}
+	void addBack(int x) {
+		IntNode* newNode = new IntNode;
+		newNode->ele = x;
+		newNode->next = NULL;
+		if (empty()) {
+			head = tail = newNode;
+			return;
+		}
+		tail->next = newNode;
+		tail = newNode;
+	}
 };
 int main(void) {
 	int n;
@@ -83,5 +107,14 @@ int main(void) {
 		else if (userInput == "removeFront") {
 			s.removeFront();
 		}
+		else if (userInput == "showList") {
+			s.showList();
+		}
+		else if (userInput == "addBack") {
+			int x;
+			cin >> x;
+			s.addBack(x);
+		}
 	}
+
 }
