@@ -3,4 +3,4 @@ project(data_structure)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(data_structure practice_labs/W12_P1.cpp)
+add_executable(data_structure Day12/P2.cpp)
