@@ -101,40 +101,42 @@ public:
         }
         return curNode;
     }
-    void deleteNode(int x){
-        IntNode* delNode = findNode(x, root); //삭제할 노드 탐색
-        if(delNode == NULL) return; //삭제할 노드가 없다면 NULL 리턴
+    void erase(int x) {
+        IntNode* delNode = findNode(x, root);
+        if(delNode == NULL) return;
         IntNode* parNode = delNode->par;
         IntNode* childNode;
-        if(delNode->leftC == NULL && delNode->rightC == NULL) { //자식이 모두 NULL인 경우
+        //par, del, child를 정의한다.
+        if (delNode->leftC == NULL && delNode->rightC == NULL) {
             childNode = NULL;
-        } else if (delNode->leftC == NULL && delNode->rightC != NULL) { //오른쪽 자식만 존재하는 경우
-            childNode = delNode->rightC;
-        } else if (delNode->leftC != NULL && delNode->rightC == NULL) { //왼쪽 자식만 존재하는 경우
+        }
+        else if(delNode->leftC != NULL && delNode->rightC == NULL) {
             childNode = delNode->leftC;
-        } else { //자식이 둘다 존재하는 경우
-            childNode = successor(delNode->rightC); //SUCCESSOR 탐색
-            delNode->ele = childNode->ele; //덮어쓰기
-            delNode = childNode; //SUCCESSOR를 삭제할 노드로 변경
-            parNode = delNode->par; //SUCCESSOR의 부모로 수정
+        } else if (delNode->leftC == NULL && delNode->rightC != NULL) {
+            childNode = delNode->rightC;
+        } else {
+            childNode = successor(delNode->rightC);
+            delNode->ele = childNode->ele;
+            delNode = childNode;
+            parNode = delNode->par;
             childNode = delNode->rightC;
         }
-        if(parNode == NULL){ //부모가 NULL이면 자식이 부모가 된다.
+        //parent-child 관계 새롭게 연결한다.
+        if(parNode == NULL) {
             root = childNode;
-            if(root != NULL) { //자식의 부모 연결
-                root->par = NULL;
-            }
-        } else if (delNode == parNode->leftC){
-            parNode->leftC = childNode; //부모의 자식 연결
-            if(childNode != NULL) { //자식의 부모 연결
+            if(childNode != NULL)
+                childNode->par = NULL;
+        } else if (parNode->leftC == delNode) {
+            parNode->leftC = childNode;
+            if(childNode != NULL)
                 childNode->par = parNode;
-            }
         } else {
-            parNode->rightC = childNode; //부모의 자식 연결
-            if(childNode != NULL){ //자식의 부모 연결
+            parNode->rightC = childNode;
+            if(childNode != NULL) {
                 childNode->par = parNode;
             }
         }
+        //delNode 삭제 진행
         delete delNode;
     }
     void preOrder(IntNode* v) {
@@ -165,7 +167,7 @@ int main(void) {
         while (m--) {
             int x;
             cin >> x;
-            b.deleteNode(x);
+            b.erase(x);
         }
         if (b.isEmpty()) {
             cout << 0 << endl;
