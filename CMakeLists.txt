@@ -3,4 +3,4 @@ project(data_structure)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(data_structure Day13/P1_H.cpp)
+add_executable(data_structure Quiz3/Day13_P2_1.cpp)
